@@ -2,7 +2,7 @@
 
 set -o errexit
 
-SUITES='wheezy jessie'
+SUITES='sid wheezy jessie'
 MIRROR='ftp://ftp.debian.org/debian/'
 REPO='resin/armv7hf-debian'
 
