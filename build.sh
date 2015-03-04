@@ -5,6 +5,7 @@ set -o errexit
 SUITES='sid wheezy jessie'
 MIRROR='ftp://ftp.debian.org/debian/'
 REPO='resin/armv7hf-debian'
+LATEST='jessie'
 
 for suite in $SUITES; do
 	dir=$(mktemp --tmpdir=/var/tmp -d)
@@ -18,4 +19,7 @@ for suite in $SUITES; do
 	rm -rf $dir
 	
 	docker tag -f $REPO:$suite $REPO:$suite-$date
+	if [ $LATEST == $suite ]; then
+		docker tag -f $REPO:$suite $REPO:latest
+	fi
 done
