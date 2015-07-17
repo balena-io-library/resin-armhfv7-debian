@@ -6,7 +6,12 @@ RUN apt-get -q update \
 	&& apt-get -qy install \
 		curl \
 		docker.io \
-		debootstrap
+		debootstrap \
+		python \
+		python-pip \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN pip install awscli
 
 COPY . /usr/src/mkimage
 
