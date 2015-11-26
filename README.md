@@ -15,6 +15,6 @@ resin/armv7hf-debian is built weekly from this repository. For more details abou
 If you're having any problem, please [raise an issue][issue-tracker] on GitHub.
 
 [armv7hf-dockerhub-link]:https://registry.hub.docker.com/u/resin/armv7hf-debian/
-[resin-base-images]:http://docs.resin.io/#/pages/configuration/resin-base-images.md
+[resin-base-images]:http://docs.resin.io/#/pages/runtime/resin-base-images.md
 [source-code]:https://github.com/resin-io-library/resin-armhfv7-debian
 [issue-tracker]:https://github.com/resin-io-library/resin-armhfv7-debian/issues
