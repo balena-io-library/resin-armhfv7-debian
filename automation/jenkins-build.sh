@@ -1,9 +1,26 @@
 #!/bin/bash
 
-QEMU_VERSION='2.5.0-resin-rc1'
-QEMU_SHA256='8db1c7525848072974580b2e1c79797fc995fd299ee2e4214631574023589782'
+export SUITES='sid wheezy jessie'
+export REPO='resin/armv7hf-debian'
+LATEST='jessie'
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+date=$(date +'%Y%m%d' -u)
 
-# Jenkins build steps
-docker build -t armv7hfdebian-mkimage .
-docker run --privileged -e QEMU_SHA256=$QEMU_SHA256 -e QEMU_VERSION=$QEMU_VERSION -e REGION_NAME=$REGION_NAME -e ACCESS_KEY=$ACCESS_KEY -e SECRET_KEY=$SECRET_KEY -e BUCKET_NAME=$BUCKET_NAME -v /var/run/docker.sock:/var/run/docker.sock armv7hfdebian-mkimage
-docker push resin/armv7hf-debian
+bash "$dir/build-image.sh"
+for suite in $SUITES; do
+
+	docker run --rm $REPO:$suite bash -c 'dpkg-query -l' > $suite
+
+	# Upload to S3 (using AWS CLI)
+	printf "$ACCESS_KEY\n$SECRET_KEY\n$REGION_NAME\n\n" | aws configure
+	aws s3 cp $suite s3://$BUCKET_NAME/image_info/armv7hf-debian/$suite/
+	aws s3 cp $suite s3://$BUCKET_NAME/image_info/armv7hf-debian/$suite/$suite_$date
+	rm -rf $suite
+	
+	docker tag -f $REPO:$suite $REPO:$suite-$date
+	if [ $LATEST == $suite ]; then
+		docker tag -f $REPO:$suite $REPO:latest
+	fi
+done
+
+docker push $REPO
