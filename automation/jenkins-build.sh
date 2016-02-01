@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -o errexit
+set -o pipefail
+
 export SUITES='sid wheezy jessie'
 export REPO='resin/armv7hf-debian'
 LATEST='jessie'
