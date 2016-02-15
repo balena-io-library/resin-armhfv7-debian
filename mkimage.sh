@@ -98,7 +98,7 @@ ENV LC_ALL C.UTF-8
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV DEBIAN_FRONTEND noninteractive
 LABEL io.resin.architecture="armv7hf" \\
-	  io.resin.qemu.version="$QEMU_VERSION"
+	  io.resin.qemu.version="$RESIN_QEMU_VERSION"
 EOF
 
 # if our generated image has a decent shell, let's set a default command
